@@ -1,13 +1,14 @@
 // ==UserScript==
 // @name         BlackJack(二十一点)
 // @author       JohNSoN
-// @version      1.0.0
+// @version      1.0.1
 // @description  经典纸牌游戏Black Jack
-// @timestamp    1679871861
-// 2023-03-27 07:04:21
+// @timestamp    1681024053
 // @license      Unlicense
 // @homepageURL  https://github.com/Xiangze-Li/sealdice-addon
 // ==/UserScript==
+
+const VERSION = '1.0.1';
 
 class Player {
     #name = '';
@@ -271,8 +272,10 @@ class BlackjackGame {
 
 let ext = seal.ext.find('blackjack');
 if (!ext) {
-    ext = seal.ext.new('blackjack', 'JohNSoN', '1.0.0');
+    ext = seal.ext.new('blackjack', 'JohNSoN', '1.0.1');
     seal.ext.register(ext);
+} else if (ext.version !== VERSION) {
+    ext.version = VERSION;
 }
 
 const cmd = seal.ext.newCmdItemInfo();
@@ -360,7 +363,9 @@ cmd.solve = (ctx, msg, cmdArgs) => {
             }
             hint += '\n' + game.describe();
 
-            game = new BlackjackGame();
+            if (succ) {
+                game = new BlackjackGame();
+            }
             break;
         }
         case 'status': case '查看': case '牌桌': {
